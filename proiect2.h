@@ -88,10 +88,6 @@ class Facultate{
 public:
     void setNume() {std::getline(std::cin, nume);}
     void setOras() {std::getline(std::cin,oras);}
-    void citire(std::string nume){
-        std::cout << "-- Please insert name:";
-        std::getline(std::cin,oras);
-    }
     std::string getNume() const { return nume; }
     std::string getOras() const { return oras; }
     ~Facultate(){}
