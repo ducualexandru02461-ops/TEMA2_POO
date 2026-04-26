@@ -2,6 +2,7 @@
 #define PROIECT2_H_INCLUDED
 #include <iostream>
 #include <vector>
+#include <string>
 
 class Persoana{
 protected:
@@ -22,7 +23,7 @@ public:
     //}
     Student () : Persoana("") {
         std::cout << "-Nume: ";
-        std::cin >> nume;
+        std::getline(std::cin, nume);
     }
     std::string getNume() const{
         return nume;
@@ -41,10 +42,11 @@ public:
     //}
     void citire() {
         std::cout << "-Nume curs: ";
-        std::cin >> nume;
+        std::getline(std::cin, nume);
 
         std::cout << "-Credite: ";
         std::cin >> credite;
+        std::cin.ignore();
     }
     std::string getNume() const {
         return nume;
@@ -60,7 +62,7 @@ class Profesor : public Persoana{;
 public:
     Profesor () : Persoana("") {
         std::cout << "-Nume profesor: ";
-        std::cin >> nume;
+        std::getline(std::cin, nume);
     }
     std::string getNume() const{
         return nume;
@@ -84,11 +86,11 @@ class Facultate{
     std::vector<Profesor> listaProfesori;
     std::vector<Curs> listaCursuri;
 public:
-    void setNume() {std::cin >> nume;}
-    void setOras() {std::cin >> oras;}
+    void setNume() {std::getline(std::cin, nume);}
+    void setOras() {std::getline(std::cin,oras);}
     void citire(std::string nume){
         std::cout << "-- Please insert name:";
-        std::cin >> nume;
+        std::getline(std::cin,oras);
     }
     std::string getNume() const { return nume; }
     std::string getOras() const { return oras; }
