@@ -21,6 +21,7 @@ int main(){
     while(1){
         std::cout << "\n\nInserare cifra: ";
         std::cin >> cif;
+        std::cin.ignore();
 
         if (cif == 0)break;
 
@@ -72,12 +73,11 @@ int main(){
                     }
                     std::cout << "\n\n";
                     std::cout << "--> PROFESORI: " << "\n";
-                    for (int i = 0; i < listaProfesori.size(); ++i){
+                    for (int i = 0; i < listaProfesori.size(); i++){
                         std::cout << "- Nume: " << listaProfesori[i].getNume() << "\n";
                         std::cout << "- Curs predat: " << listaProfesori[i].getNumeCurs() << "\n";
-                        std::cout << "- Credite" << listaProfesori[i].getCrediteCurs() << "\n";
+                        std::cout << "- Credite: " << listaProfesori[i].getCrediteCurs() << "\n\n";
                     }
-                    std::cout << "\n\n";
                     break;
 
                 case 3:
