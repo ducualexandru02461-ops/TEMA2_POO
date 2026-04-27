@@ -34,7 +34,7 @@ public:
 class Curs{
 protected:
     std::string nume;
-    int credite;
+    int credite = 0;
 public:
     //Curs(const std::string& nume_){ nume = nume_; }
     //std::string getNume() const{
@@ -92,5 +92,12 @@ public:
     std::string getOras() const { return oras; }
     ~Facultate(){}
 };
+
+
+/*void afisareOptiuni () {
+    std::cout << "Apasati:" <<"\n";
+    std::cout << "-> 0, pentru a intrerupe crearea bazei de date" << "\n";
+    std::cout << "-> 1, pentru a continua crearea bazei de date" << "\n";
+}*/
 
 #endif // PROIECT2_H_INCLUDED
