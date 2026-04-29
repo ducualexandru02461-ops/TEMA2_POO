@@ -43,18 +43,23 @@ public:
     void citire() {
         std::cout << "-Nume curs: ";
         std::getline(std::cin, nume);
-
-        std::cout << "-Credite: ";
-        std::cin >> credite;
-        std::cin.ignore();
     }
     std::string getNume() const {
         return nume;
     }
-    int getCredite() const {
+    ~Curs(){}
+};
+
+class Credite{
+    std::string credite;
+public:
+    void citire(){
+        std::cout << "-Credite: ";
+        std::cin >> credite;
+    }
+    std::string getCredite() const {
         return credite;
     }
-    ~Curs(){}
 };
 
 class Profesor : public Persoana{;
@@ -70,9 +75,9 @@ public:
     std::string getNumeCurs() const{
         return curs.getNume();
     }
-    int getCrediteCurs() const{
+    /*int getCrediteCurs() const{
         return curs.getCredite();
-    }
+    }*/
     void setCurs(const Curs& c){
         curs = c;
     }
