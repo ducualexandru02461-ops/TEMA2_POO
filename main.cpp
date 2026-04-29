@@ -5,10 +5,11 @@
 #include "proiect2.h"
 
 int main(){
-    int cif;
+    int cif, ok;
     std::vector<Student> listaStudenti;
     std::vector<Profesor> listaProfesori;
     std::vector<Curs> listaCursuri;
+    std::vector<Credite> listaCredite;
     std::string nume;
     Facultate facultate;
     std::cout << "0.-- Iesire" << "\n";
@@ -18,11 +19,10 @@ int main(){
     std::cout << "4.-- Adauga student" << "\n";
     std::cout << "5.-- Sterge student" << "\n";
     std::cout << "6.-- Cauta student" << "\n";
-    std::cout << "7.-- Adauga curs profesor" << "\n";
-    std::cout << "MENTIUNE: IN CAZUL IN CARE DORITI SA NU CONTINUATI, APASATI TASTA 0 ORICAND!";
+    std::cout << "7.-- Adauga curs profesor" << "\n\n";
+    std::cout << "  MENTIUNE:" << "\n" << "->IN CAZUL IN CARE DORITI SA NU CONTINUATI, APASATI TASTA 0 ORICAND!" << "\n";
 
     int okBD = 0;
-
 
     while(1){
         std::cout << "\n\nInserare cifra: ";
@@ -52,33 +52,133 @@ int main(){
                     if (facultate.getOras() == "0")break;
                     std::cout << "-> Inserati studenti: " << "\n";
                     while(1){
+                        ok = 1;
                         Student student;
-                        if(student.getNume() == "execute"){
-                            if(listaStudenti.size() == 0){
-                                std::cout << "!EROARE!" << "\n";
-                            }
-                            else{
+                        if (student.getNume() == "0"){
+                            std::cout << "Sigur doriti sa iesiti?(y/n)";
+                            char btn1;
+                            std::cin >> btn1;
+                            std::cin.ignore();
+                            if (btn1 == 'y'){
+                                ok = 0;
                                 break;
                             }
                         }
-                        if (student.getNume() == "exit"){
-                            break;
+                        else if (student.getNume() == ""){
+                            if (listaStudenti.size() == 0){
+                                std::cout << "\n" << "Eroare" << "\n";
+                            }
+                            else break;
                         }
-                        listaStudenti.push_back(student);
+                            else{
+                                listaStudenti.push_back(student);
+                            }
                     }
+                    if (ok == 0) {
+                        okBD = 0;
+                        listaStudenti.clear();
+                        facultate = Facultate();
+                        break;
+                    }
+
                     std::cout << "-> Inserati profesori" << "\n";
                     while(1){
+                        ok = 1;
                         Profesor profesor;
-                        if(profesor.getNume() == "execute")
-                            break;
-                        else{
-                            Curs curs;
-                            curs.citire();
-                            profesor.setCurs(curs);
-                            listaProfesori.push_back(profesor);
-                            std::cout << profesor.getNumeCurs() << " " << profesor.getCrediteCurs() << "\n";
+                        if (profesor.getNume() == "0"){
+                            std::cout << "Sigur doriti sa iesiti?(y/n)";
+                            char btn1;
+                            std::cin >> btn1;
+                            std::cin.ignore();
+                            if (btn1 == 'y'){
+                                ok = 0;
+                                break;
+                            }
                         }
+                        if (ok == 0){
+                            okBD = 0;
+                            listaStudenti.clear();
+                            listaProfesori.clear();
+                            facultate = Facultate();
+                            std::cout << "Crearea bazei de date a fost anulata!\n";
+                            break;
+                        }
+                        else if (profesor.getNume() == ""){
+                            if (listaProfesori.size() == 0){
+                                std::cout << "\n" << "Eroare" << "\n";
+                            }
+                        }
+                            else{
+                                listaProfesori.push_back(profesor);
+                                Curs curs;
+                                curs.citire();
+                                if (curs.getNume() == "0"){
+                                    std::cout << "Sigur doriti sa iesiti?(y/n)";
+                                    char btn2;
+                                    std::cin >> btn2;
+                                    std::cin.ignore();
+                                    if (btn2 == 'y'){
+                                        ok = 0;
+                                        break;
+                                    }
+                                }
+                                if (ok == 0){
+                                    okBD = 0;
+                                    listaStudenti.clear();
+                                    listaProfesori.clear();
+                                    listaCursuri.clear();
+                                    facultate = Facultate();
+                                    break;
+                                }
+                                else if (curs.getNume() == ""){
+                                    if (listaCursuri.size() == 0){
+                                        std::cout << "\n" << "Eroare" << "\n";
+                                    }
+                                }
+                                    else{
+                                        listaCursuri.push_back(curs);
+                                        Credite credite;
+                                        credite.citire();
+                                        if (credite.getCredite() == "0"){
+                                            std::cout << "Sigur doriti sa iesiti?(y/n)";
+                                            char btn3;
+                                            std::cin >> btn3;
+                                            std::cin.ignore();
+                                            if (btn3 == 'y'){
+                                                ok = 0;
+                                                break;
+                                            }
+                                        }
+                                        if (ok == 0){
+                                            okBD = 0;
+                                            listaStudenti.clear();
+                                            listaProfesori.clear();
+                                            listaCursuri.clear();
+                                            listaCredite.clear();
+                                            facultate = Facultate();
+                                            break;
+                                        }
+                                        else if (credite.getCredite() == ""){
+                                            if (listaCredite.size() == 0){
+                                                std::cout << "\n" << "Eroare" << "\n";
+                                            }
+                                            else break;
+                                        }
+                                    }
+                                }
                     }
+                    if (ok == 0){
+                        okBD = 0;
+                        std::cout << "Crearea bazei de date a fost anulata!\n";
+                        break;
+                    }
+                    /*if (ok == 0) {
+                        okBD = 0;
+                        listaProfesori.clear();
+                        facultate = Facultate();
+                        break;
+                    }*/
+
                     std :: cout << "Baza de date a fost creata cu succes!";
                     break;
 
@@ -97,8 +197,8 @@ int main(){
                     std::cout << "--> PROFESORI: " << "\n";
                     for (int i = 0; i < listaProfesori.size(); i++){
                         std::cout << "- Nume: " << listaProfesori[i].getNume() << "\n";
-                        std::cout << "- Curs predat: " << listaProfesori[i].getNumeCurs() << "\n";
-                        std::cout << "- Credite: " << listaProfesori[i].getCrediteCurs() << "\n\n";
+                        std::cout << "- Curs predat: " << listaCursuri[i].getNume() << "\n";
+                        std::cout << "- Credite: " << listaCredite[i].getCredite() << "\n\n";
                     }
                     break;
 
@@ -154,7 +254,7 @@ int main(){
                         if (btn5_yn == 'y') break;
                         else continue;
                     }
-                    else if (btn5 > listaStudenti.size() || btn5 < listaStudenti.size()) std::cout << "Optiune invalida!";
+                    else if (btn5 < 0 || btn5 >= listaStudenti.size()) std::cout << "Optiune invalida!";
                         else listaStudenti[btn5];
 
                 case 6:
