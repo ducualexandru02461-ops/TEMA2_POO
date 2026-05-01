@@ -14,6 +14,9 @@ public:
     Persoana(const std::string& n) : nume(n) {}
     std::string getNume() const { return nume; }
     virtual void citire (std::istream& in) = 0;
+    void afisareNV() const {
+        afisare();
+    }
     virtual void afisare() const = 0;
     virtual ~Persoana() {}
 };
@@ -21,18 +24,23 @@ public:
 ///STUDENT///
 
 class Student : public Persoana {
+    std::string domeniu;
 public:
     Student() {}
-    Student(const std::string& n) : Persoana(n) {}
+    Student(const std::string& n, const std::string& domeniu_) : Persoana(n), domeniu(domeniu_) {}
 
     void citire(std::istream& in) override {
         std::cout << "Nume student: ";
         std::getline(in, nume);
+        std::cout << "Domeniul: ";
+        std::getline(in, domeniu);
     }
 
     void afisare() const override {
-        std::cout << "Student: " << nume << "\n";
+        std::cout << "\nStudent: " << nume << "; Domeniul: " << domeniu;
     }
+
+    std::string getDomeniu() const { return domeniu; }
 };
 
 ///CURS///
@@ -78,7 +86,7 @@ public:
     }
 
     void afisare () const override {
-        std::cout << "Profesor:" << nume
+        std::cout << "\nProfesor:" << nume
                   << " | " << curs.getNume()
                   << " | " << curs.getCredite() << "\n";
 
@@ -106,7 +114,7 @@ public:
     }
 
     void afisare() const {
-        std::cout << "Secretar: " << nume
+        std::cout << "\nSecretar: " << nume
                   << " | Departament: " << departament
                   << " | Vechime: " << vechime << " ani\n";
     }
@@ -129,10 +137,12 @@ public:
 class Facultate {
     std::string nume;
     std::string oras;
+
 public:
     std::vector<Student> studenti;
     std::vector<Profesor> profesori;
     std::vector<Secretar> secretari;
+    std::vector<Persoana*> persoane;
 
     void setDate(const std::string& n, const std::string& o) {
         nume = n;
@@ -145,7 +155,7 @@ public:
 
         std::cout << "Studenti:\n";
         for (auto& s : studenti)
-            std::cout << "- " << s.getNume() << "\n";
+            std::cout << "- " << s.getNume() << "; " << s.getDomeniu() <<"\n";
 
         std::cout << "\nProfesori:\n";
         for (auto& p : profesori) {
@@ -160,7 +170,26 @@ public:
                       << " | " << s.getDepartament()
                       << " | " << s.getVechime() << "\n";
         }
+
     }
+
+    void afiseazaDate() {
+        for (auto p : persoane)
+            p->afisare();
+    }
+
+
+    int nrStudentiAdaugati() {
+        int nr = 0;
+        Persoana* p = new Student();
+        for (auto p : persoane){
+            if(Student* s = dynamic_cast<Student*>(p))
+                nr += 1;
+        }
+        return nr;
+    }
+
+
 };
 
-#endif
+#endif // PROIECT2_H_INCLUDED
