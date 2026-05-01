@@ -23,14 +23,17 @@ int main() {
 
     f.setDate(numeFac, oras);
 
-    std::getline(fin, linie); 
-    std::getline(fin, linie); 
+    std::getline(fin, linie);
+    std::getline(fin, linie);
+
+    std::string domeniu;
 
     while (std::getline(fin, linie) && linie != "") {
-        f.studenti.push_back(Student(linie));
+        std::getline(fin, domeniu);
+        f.studenti.push_back(Student(linie, domeniu));
     }
 
-    std::getline(fin, linie); 
+    std::getline(fin, linie);
 
     std::string numeProf, numeCurs;
     int credite;
@@ -50,7 +53,7 @@ int main() {
     std::string nume, prenume, departament;
     int vechime;
 
-    std::getline(fin, linie); 
+    std::getline(fin, linie);
 
     while (fin >> nume >> prenume >> departament >> vechime) {
         std::string numeComplet = nume + " " + prenume;
@@ -63,18 +66,19 @@ int main() {
     while(1){
         std::cout << "\n   INSERATI CIFRA:\n"
                   << "0-Exit\n"
-                  << "1-Inregistrare persoane noi\n";
+                  << "1-Inregistrare persoane noi\n"
+                  << "2-Numarul studentilor noi inregistrati\n";
         int btn;
         std::cout << "\n-> ";
         std::cin >> btn;
         if (btn == 0){
-            std::cout << "\n\nCLOSED";
+            std::cout << "\n   CLOSED";
             break;
         }
         switch(btn){
             case 1:
                 {
-                std::vector<Persoana*> persoane;
+                //std::vector<Persoana*> persoane;
                 while(1){
 
                     int tip;
@@ -83,7 +87,6 @@ int main() {
                     std::cin.ignore();
 
                     Persoana* p = nullptr;
-
 
                     if (tip == 0)
                         break;
@@ -96,18 +99,21 @@ int main() {
 
                     if (p) {
                         p->citire(std::cin);
-                        persoane.push_back(p);
+                        f.persoane.push_back(p);
                     }
                 }
 
-                std::cout << "Persoane noi:\n";
-                for (auto p : persoane){
-                    p->afisare();
-                }
+                std::cout << "\n   PERSOANE NOI:";
+                f.afiseazaDate();
                 break;
                 }
+            case 2:
+                {
+                    std::cout << "\n   ->Au fost inregistrati " << f.nrStudentiAdaugati() << " studenti noi.";
+                    break;
+                }
             default:
-                std::cout << "aoleu gigele n-ai cum";
+                std::cout << "\n   OPTIUNE INVALIDA\n";
                 break;
         }
     }
