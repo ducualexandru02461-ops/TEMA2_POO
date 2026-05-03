@@ -1,15 +1,10 @@
 #include <fstream>
 #include <iostream>
-#include <limits>
 #include "proiect2.h"
 
 int main() {
-    std::ifstream fin("date.txt");
 
-    if (!fin) {
-        std::cout << "Eroare la deschiderea fisierului!";
-        return 1;
-    }
+    std::ifstream fin("date.txt");
 
     Facultate f;
 
@@ -65,9 +60,9 @@ int main() {
 
     while(1){
         std::cout << "\n   INSERATI CIFRA:\n"
-                  << "0-Exit\n"
-                  << "1-Inregistrare persoane noi\n"
-                  << "2-Numarul studentilor noi inregistrati\n";
+                  << "0 -> EXIT\n"
+                  << "1 -> INREGISTRARE PERSOANE NOI\n"
+                  << "2 -> NUMARUL STUDENTILOR NOI INREGISTRATI\n";
         int btn;
         std::cout << "\n-> ";
         std::cin >> btn;
@@ -81,8 +76,8 @@ int main() {
                 //std::vector<Persoana*> persoane;
                 while(1){
 
-                    int tip;
-                    std::cout << "0-Exit| 1-Student | 2-Profesor | 3-Secretar: ";
+                    int tip, ok =1;
+                    std::cout << "\n0 ->EXIT \n1 -> INREGISTRARE STUDENT\n2 -> INREGISTRARE PROFESOR\n3 -> INREGISTRARE SECRETAR\n ";
                     std::cin >> tip;
                     std::cin.ignore();
 
@@ -98,18 +93,38 @@ int main() {
                                 p = new Secretar();
 
                     if (p) {
-                        p->citire(std::cin);
-                        f.persoane.push_back(p);
+                        try {
+                            p->citire(std::cin);
+                        }
+                        catch (const std::exception& e) {
+                            ok = 0;
+                            std::cout << e.what();
+                        }
+                        try {
+                            f.adaugaPersoana(p);
+                        }
+                        catch (const std::exception& e) {
+                            ok = 0;
+                            std::cout << e.what();
+                        }
+                        if (ok == 1)
+                            f.persoane.push_back(p);
                     }
                 }
 
-                std::cout << "\n   PERSOANE NOI:";
-                f.afiseazaDate();
+                if (f.persoane.size() == 0)std::cout << "\n   NU AU FOST INTRODUSE PERSOANE NOI.";
+                else {
+                    std::cout << "\n   PERSOANE NOI:";
+                    f.afiseazaDate();
+                }
                 break;
                 }
             case 2:
                 {
-                    std::cout << "\n   ->Au fost inregistrati " << f.nrStudentiAdaugati() << " studenti noi.";
+                    if (f.nrStudentiAdaugati() != 1){
+                        std::cout << "\n   ->AU FOST INREGISTRATI " << f.nrStudentiAdaugati() << " STUDENTI NOI.\n";
+                    }
+                    else std::cout << "\n   ->A FOST INREGISTRAT UN SINGUR STUDENT NOU.\n";
                     break;
                 }
             default:
