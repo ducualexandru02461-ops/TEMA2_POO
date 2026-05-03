@@ -3,6 +3,38 @@
 #include <iostream>
 #include <vector>
 #include <string>
+#include <exception>
+
+
+///EXCEPTII///
+
+class EroareBD : public std::exception{
+protected:
+    std::string mesaj;
+
+public:
+    EroareBD(const std::string& msg) : mesaj(msg) {}
+
+    const char* what() const noexcept override {
+        return mesaj.c_str();
+    }
+};
+
+class EroareFisier : public EroareBD{
+public:
+    EroareFisier() : EroareBD("Eroare la fisier\n") {}
+};
+
+class EroareCitire : public EroareBD{
+public:
+    EroareCitire() : EroareBD("Eroare la citire\n") {}
+};
+
+class EroareDuplicat : public EroareBD {
+public:
+    EroareDuplicat(const std::string& nume)
+        : EroareBD("\n    ATENTIE! ELEMENT DUPLICAT: " + nume) {}
+};
 
 ///PERSOANA///
 
@@ -30,14 +62,21 @@ public:
     Student(const std::string& n, const std::string& domeniu_) : Persoana(n), domeniu(domeniu_) {}
 
     void citire(std::istream& in) override {
-        std::cout << "Nume student: ";
+        std::cout << "-NUME STUDENT: ";
         std::getline(in, nume);
-        std::cout << "Domeniul: ";
+        if (nume == ""){
+            throw EroareCitire();
+        }
+
+        std::cout << "-DOMENIUL: ";
         std::getline(in, domeniu);
+        if (domeniu == ""){
+            throw EroareCitire();
+        }
     }
 
     void afisare() const override {
-        std::cout << "\nStudent: " << nume << "; Domeniul: " << domeniu;
+        std::cout << "\nSTUDENT: " << nume << "\nDOMENIUL: " << domeniu << "\n";
     }
 
     std::string getDomeniu() const { return domeniu; }
@@ -56,10 +95,13 @@ public:
     int getCredite() const { return credite; }
 
     void citire(std::istream& in){
-        std::cout << "Nume curs: ";
+        std::cout << "-NUME CURS: ";
         std::getline(in, nume);
+        if (nume == ""){
+            throw EroareCitire();
+        }
 
-        std::cout << "Credite: ";
+        std::cout << "-CREDITE: ";
         in >> credite;
         in.ignore();
     }
@@ -79,16 +121,19 @@ public:
     int getCrediteCurs() const { return curs.getCredite(); }
 
     void citire(std::istream& in) override {
-        std::cout << "Nume profesor: ";
+        std::cout << "NUME PROFESOR: ";
         std::getline(in, nume);
+        if (nume == ""){
+            throw EroareCitire();
+        }
 
         curs.citire(in);
     }
 
     void afisare () const override {
-        std::cout << "\nProfesor:" << nume
-                  << " | " << curs.getNume()
-                  << " | " << curs.getCredite() << "\n";
+        std::cout << "\n-PROFESOR: " << nume
+                  << "\n-CURS: " << curs.getNume()
+                  << "\n-CREDITE: " << curs.getCredite() << "\n";
 
     }
 };
@@ -114,19 +159,25 @@ public:
     }
 
     void afisare() const {
-        std::cout << "\nSecretar: " << nume
-                  << " | Departament: " << departament
-                  << " | Vechime: " << vechime << " ani\n";
+        std::cout << "\n-SECRETAR: " << nume
+                  << "\n-DEPARTAMENT: " << departament
+                  << "\n-VECHIME: " << vechime << " ANI\n";
     }
 
     void citire(std::istream& in) override{
-        std::cout << "Nume secretar: ";
+        std::cout << "-NUME SECRETAR: ";
         std::getline(in, nume);
+        if (nume == ""){
+            throw EroareCitire();
+        }
 
-        std::cout << "Departament: ";
+        std::cout << "-DEPARTAMENT: ";
         std::getline(in, departament);
+        if (departament == ""){
+            throw EroareCitire();
+        }
 
-        std::cout << "Vechime: ";
+        std::cout << "-VECHIME(ANI): ";
         in >> vechime;
         in.ignore();
     }
@@ -150,25 +201,25 @@ public:
     }
 
     void afisare() {
-        std::cout << "Facultate: " << nume << "\n";
-        std::cout << "Oras: " << oras << "\n\n";
+        std::cout << "  FACULTATE: " << nume << "\n";
+        std::cout << "  ORAS: " << oras << "\n\n";
 
-        std::cout << "Studenti:\n";
+        std::cout << "    STUDENTI:\n";
         for (auto& s : studenti)
-            std::cout << "- " << s.getNume() << "; " << s.getDomeniu() <<"\n";
+            std::cout << "- NUME: " << s.getNume() << " | DOMENIUL: " << s.getDomeniu() <<"\n";
 
-        std::cout << "\nProfesori:\n";
+        std::cout << "\n    PROFESORI:\n";
         for (auto& p : profesori) {
-            std::cout << "- " << p.getNume()
-                      << " | " << p.getNumeCurs()
-                      << " | " << p.getCrediteCurs() << "\n";
+            std::cout << "- NUME: Profesor " << p.getNume()
+                      << " | CURS: " << p.getNumeCurs()
+                      << " | CREDITE: " << p.getCrediteCurs() << "\n";
         }
 
-        std::cout << "\nSecretari:\n";
+        std::cout << "\n    SECRETARI:\n";
         for (auto& s : secretari) {
-            std::cout << "- " << s.getNume()
-                      << " | " << s.getDepartament()
-                      << " | " << s.getVechime() << "\n";
+            std::cout << "- NUME: " << s.getNume()
+                      << " | DEPARTAMENT: " << s.getDepartament()
+                      << " | CREDITE: " << s.getVechime() << "\n";
         }
 
     }
@@ -189,6 +240,17 @@ public:
         return nr;
     }
 
+    ~Facultate() {
+        for (auto p : persoane)
+            delete p;
+    }
+
+    void adaugaPersoana(Persoana *p) {
+        for (auto pers : persoane){
+            if (pers->getNume() == p->getNume())
+                throw EroareDuplicat(p->getNume());
+        }
+    }
 
 };
 
