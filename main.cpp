@@ -4,7 +4,13 @@
 
 int main() {
 
+
+    try{
     std::ifstream fin("date.txt");
+
+    if(!fin){
+        throw EroareFisier();
+    }
 
     Facultate f;
 
@@ -13,8 +19,17 @@ int main() {
     std::getline(fin, linie);
     std::string numeFac = linie;
 
+    if(numeFac == ""){
+        throw EroareFisier();
+    }
+
     std::getline(fin, linie);
     std::string oras = linie;
+
+    if(oras == ""){
+        throw EroareFisier();
+    }
+
 
     f.setDate(numeFac, oras);
 
@@ -25,6 +40,9 @@ int main() {
 
     while (std::getline(fin, linie) && linie != "") {
         std::getline(fin, domeniu);
+        if (domeniu == ""){
+            throw EroareFisier();
+        }
         f.studenti.push_back(Student(linie, domeniu));
     }
 
@@ -34,7 +52,7 @@ int main() {
     int credite;
 
     while (std::getline(fin, numeProf)) {
-        if (numeProf == "") break;
+        if (numeProf == "")break;
 
         std::getline(fin, numeCurs);
         fin >> credite;
@@ -51,6 +69,9 @@ int main() {
     std::getline(fin, linie);
 
     while (fin >> nume >> prenume >> departament >> vechime) {
+        if (nume == "" || prenume == "" || departament == ""){
+            throw EroareFisier();
+        }
         std::string numeComplet = nume + " " + prenume;
         f.secretari.push_back(Secretar(numeComplet, departament, vechime));
     }
@@ -131,6 +152,10 @@ int main() {
                 std::cout << "\n   OPTIUNE INVALIDA\n";
                 break;
         }
+    }
+    }
+    catch (const std::exception& e) {
+        std::cout << e.what();
     }
 
     return 0;
