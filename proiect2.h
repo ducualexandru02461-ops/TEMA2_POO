@@ -226,7 +226,7 @@ public:
 
     void afiseazaDate() {
         for (auto p : persoane)
-            p->afisare();
+            p->afisareNV();
     }
 
 
