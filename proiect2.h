@@ -240,11 +240,6 @@ public:
         return nr;
     }
 
-    ~Facultate() {
-        for (auto p : persoane)
-            delete p;
-    }
-
     void adaugaPersoana(Persoana *p) {
         for (auto pers : persoane){
             if (pers->getNume() == p->getNume())
@@ -252,6 +247,15 @@ public:
         }
     }
 
+
+    ~Facultate() {
+        for (auto p : persoane)
+            delete p;
+    }
+
 };
 
+
+
 #endif // PROIECT2_H_INCLUDED
+
