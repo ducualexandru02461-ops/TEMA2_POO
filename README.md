@@ -2,9 +2,7 @@ Se consideră o aplicație C++ care gestionează activitatea unei facultăți, p
 
 Fiecare persoană este identificată printr-un nume și este modelată printr-o clasă de bază abstractă Persoana, din care derivă următoarele tipuri:
 
-Student, caracterizat prin domeniul de studiu
-Profesor, asociat cu un curs (nume și număr de credite)
-Secretar, caracterizat prin departament și vechime
+Student, caracterizat prin domeniul de studiu; Profesor, asociat cu un curs (nume și număr de credite); Secretar, caracterizat prin departament și vechime
 
 Datele inițiale ale facultății (nume, oraș, studenți, profesori, secretari) sunt citite dintr-un fișier text.
 
