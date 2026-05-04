@@ -10,13 +10,8 @@ Datele inițiale ale facultății (nume, oraș, studenți, profesori, secretari)
 
 Aplicația trebuie să permită următoarele funcționalități:
 
-citirea și stocarea datelor despre facultate din fișier
-afișarea informațiilor despre facultate și toate categoriile de persoane
-adăugarea de noi persoane (student, profesor sau secretar) prin intermediul unei interfețe bazate pe pointeri la clasa de bază
-utilizarea funcțiilor virtuale pentru citire și afișare (polimorfism)
-prevenirea introducerii de persoane duplicate (după nume)
-tratarea erorilor printr-o ierarhie proprie de excepții (derivată din std::exception), pentru:
-erori de citire
-erori de fișier
-erori de duplicare
-determinarea numărului de studenți adăugați ulterior rulării aplicației
+citirea și stocarea datelor despre facultate din fișier; afișarea informațiilor despre facultate și toate categoriile de persoane; adăugarea de noi persoane (student, profesor sau secretar) prin intermediul unei interfețe bazate pe pointeri la clasa de bază; utilizarea funcțiilor virtuale pentru citire și afișare (polimorfism); tratarea erorilor printr-o ierarhie proprie de excepții (derivată din std::exception), pentru: erori de citire, erori de fișier, erori de duplicare; determinarea numărului de studenți adăugați ulterior rulării aplicației
+
+Date review:
+Nume: Glăvan Ionuț - Alexandru
+Proiect: Florărie
